@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>France New Life S-WL</title>
+  <link rel="shortcut icon" href="img/newlife.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #b00000;
+      --primary-dark: #800000;
+      --secondary-color: #ffffff;
+      --dark-bg: #000000;
+      --light-bg: rgba(8, 8, 8, 0.9);
+      --text-light: #ffffff;
+      --text-dark: #ffffff;
+      --border-color: #ffffff;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --transition: all 0.3s ease;
+      --bleu: #0055A4;
+      --blanc: #F5F5F5;
+      --rouge: #b00000;
+      --noir: #1E1E1E;
+      --gris: #333333;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      transition: var(--transition);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    header {
+      background-color: none;
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      position: relative;
+      top: 10px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      z-index: 100;
+      box-shadow: var(--box-shadow);
+      width: 90%;
+      max-width: 1100px;
+      border-radius: 0;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        padding: 1rem 2rem;
+        width: 90%;
+        border-radius: 10px;
+      }
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-light);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (min-width: 576px) {
+      .logo {
+        font-size: 2rem;
+      }
+    }
+
+    .logo span {
+      color: var(--bleu);
+    }
+
+    .logo span2 {
+      color: var(--rouge);
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        width: auto;
+        margin-top: 0;
+        gap: 2rem;
+      }
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .social {
+      display: flex;
+      margin-left: 0.5px;
+    }
+
+    @media (max-width: 767px) {
+      .social {
+        margin-right: 40px;
+      }
+    }
+
+    .social-btn {
+      color: var(--text-light);
+      font-size: 1.2rem;
+      margin-left: 0.5rem;
+      transition: transform 0.3s;
+    }
+
+    .social-btn:hover {
+      background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transform: scale(1.2);
+    }
+
+    .menu-toggle {
+      display: block;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--dark-bg);
+      text-align: center;
+      padding: 3rem 0;
+      perspective: 1000px;
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        min-height: 100vh;
+        padding: 5rem 0;
+      }
+    }
+
+    .hero-content {
+      transform-style: preserve-3d;
+      animation: float 6s ease-in-out infinite;
+      padding: 0 15px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotateX(0deg); }
+      50% { transform: translateY(-10px) rotateX(5deg); }
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+    }
+
+    @media (min-width: 576px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+    }
+
+    .hero h1 span {
+      color: var(--bleu);
+    }
+
+    .hero h1 span2 {
+      color: var(--rouge);
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1rem;
+      opacity: 0.85;
+      padding: 0 15px;
+    }
+
+    @media (min-width: 576px) {
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+
+    .discord-btn {
+      position: relative;
+      background: none;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-top: 1.5rem;
+      display: inline-block;
+      text-decoration: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .discord-btn::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+      z-index: -1;
+      border-radius: 50px;
+      filter: blur(8px);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .discord-btn:hover::before {
+      opacity: 1;
+      filter: blur(12px);
+    }
+
+
+    @media (min-width: 576px) {
+      .discord-btn {
+        padding: 12px 30px;
+        margin-top: 2rem;
+      }
+    }
+
+    .gallery-section {
+      padding: 2rem 15px;
+      text-align: center;
+      background-color: var(--dark-bg);
+    }
+
+    @media (min-width: 768px) {
+      .gallery-section {
+        padding: 4rem 2rem;
+      }
+    }
+
+    .gallery-section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--blanc);
+    }
+
+    .gallery-section h2 span {
+      color: var(--bleu);
+    }
+
+    .gallery-section h2 span2 {
+      color: var(--rouge);
+    }
+
+    @media (min-width: 576px) {
+      .gallery-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    @media (min-width: 576px) {
+      .gallery-grid {
+        gap: 1.5rem;
+      }
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @media (min-width: 576px) {
+      .gallery-grid img {
+        height: 350px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .gallery-grid img {
+        height: 500px;
+      }
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.05) rotateX(2deg);
+      box-shadow: 0 0 20px rgba(0, 123, 255, 0.5), 
+                  0 0 40px rgba(255, 255, 255, 0.3), 
+                  0 0 60px rgba(255, 45, 45, 0.4);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      object-fit: contain;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2rem;
+      color: var(--text-light);
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .modal .close-btn:hover {
+      transform: scale(1.2);
+    }
+
+    .rules-teaser {
+      background-color: none;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      text-align: center;
+      margin: 2rem 15px 0;
+    }
+
+    @media (min-width: 768px) {
+      .rules-teaser {
+        padding: 2rem;
+        margin-top: 3rem;
+      }
+    }
+
+    .rules-teaser h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 576px) {
+      .rules-teaser h3 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .rules-teaser p {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 576px) {
+      .rules-teaser p {
+        margin-bottom: 2rem;
+      }
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    footer {
+      background: var(--dark-bg);
+      color: var(--text-light);
+      padding: 2rem 15px;
+    }
+
+    @media (min-width: 768px) {
+      footer {
+        padding: 3rem 0;
+      }
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 576px) {
+      .footer-links {
+        gap: 2rem;
+      }
+    }
+
+    .footer-links a {
+      color: var(--text-light);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover .text {
+      background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-social {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .footer-social a {
+      margin: 0 10px;
+    }
+
+    .copyright {
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    .bg-3d {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.1;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+
+    .enable-3d {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.3s ease;
+    }
+
+    .enable-3d img {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .enable-3d img:hover {
+      transform: scale(1.05) rotateX(2deg) rotateY(2deg);
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+    }
+
+    .light-mode {
+      --dark-bg: #e4e4e4;
+      --light-bg: #ffffff;
+      --text-light: #000000;
+      --text-dark: #000000;
+      --border-color: #000000;
+      background-color: var(--dark-bg);
+      color: var(--text-dark);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1001;
+      background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+      color: black;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: var(--box-shadow);
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 576px) {
+      .theme-toggle {
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class=container>
+  <nav>
+  <div class=logo><span>France</span> NewLife <span2>S-WL</span2></div>
+  <button class=menu-toggle id=menuToggle>
+  <i class="fas fa-bars"></i>
+  </button>
+  <div class=nav-links id=navLinks>
+  <a href=#accueil>🏚️ Accueil</a>
+  <a href=reglement.html>📃 Règlement</a>
+  <a href=boutique.html>🛒 Boutique</a>
+  <a href=#rules-teaser>📧 Contact</a>
+  </div>
+  <div class=social>
+  <a href=https://discord.gg/kp9Me4kfne class=social-btn><i class="fab fa-discord"></i></a>
+  <a href=https://youtube.com/@darkanvg1343 class=social-btn><i class="fab fa-youtube"></i></a>
+  <a href=https://www.tiktok.com/@ad.dev7 class=social-btn><i class="fab fa-tiktok"></i></a>
+  </div>
+  </nav>
+  </div>
+  </header>
+  <button class=theme-toggle onclick=toggleTheme()>🌓 Thème</button>
+  <section class=hero id=accueil>
+  <div class=container>
+  <div class=hero-content>
+  <h1>Bienvenue sur <span>France</span> NewLife <span2>S-WL</span2></h1>
+  <p>Consultez notre règlement et notre lexique pour vous familiariser avec notre serveur et profiter pleinement de votre expérience RP.</p>
+  <a href=reglement.html class=discord-btn>Consulter le Règlement 📃</a>
+  </div>
+  </div>
+  </section>
+  <section class=gallery-section>
+  <h2><span>Galerie</span> du <span2>Serveur</span2></h2>
+  <div class=gallery-grid>
+  <img src=img/1.jpg alt="Aperçu Serveur RP 1">
+  <img src=img/2.jpg alt="Aperçu Serveur RP 2">
+  <img src=img/3.jpg alt="Aperçu Serveur RP 3">
+  <img src=img/4.jpg alt="Aperçu Serveur RP 4">
+  </div>
+  <div id=imageModal class=modal>
+  <button class=close-btn id=closeModalBtn>&times;</button>
+  <img id=modalImage src="" alt="Image agrandie">
+  </div>
+  </section>
+  <section class=rules-teaser id="rules-teaser">
+  <h3>Consultez notre règlement complet</h3>
+  <p>Pour assurer une expérience RP de qualité, nous avons établi un ensemble de règles détaillées. Prenez le temps de les consulter avant de rejoindre notre serveur.</p>
+  <div class=buttons-container>
+  <a href=reglement.html class=discord-btn>📃 Reglement</a>
+  <a href=https://discord.gg/kp9Me4kfne class=discord-btn><i class="fab fa-discord"></i></a>
+  <a href=# class=discord-btn>🎮</a>
+  </div>
+  </section>
+  <footer>
+  <div class="container">
+  <div class="footer-links">
+  <a href="#accueil"><span class="icon">🏚️ </span><span class="text">Accueil</span></a>
+  <a href="reglement.html"><span class="icon">📃 </span><span class="text">Règlement</span></a>
+  <a href="#contact"><span class="icon">📧 </span><span class="text">Contact</span></a>
+  </div>
+  </div>
+  <div class=footer-social>
+  <a href=https://discord.gg/kp9Me4kfne class=social-btn target=_blank><i class="fab fa-discord"></i></a>
+  <a href=https://youtube.com/@darkanvg1343 class=social-btn target=_blank><i class="fab fa-youtube"></i></a>
+  <a href=https://www.tiktok.com/@ad.dev7 class=social-btn target=_blank><i class="fab fa-tiktok"></i></a>
+  </div>
+  <div class=copyright>
+  &copy; 2025 SERVEUR RP. Tous droits réservés.
+  </div>
+  </div>
+  </footer></body>
+  <script>
+    const _0x5bb0f8=_0x52e2;(function(_0x5c6e41,_0x438db1){const _0xfaf32d=_0x52e2,_0x2cfb77=_0x5c6e41();while(!![]){try{const _0x2d91a3=parseInt(_0xfaf32d(0x91))/0x1+parseInt(_0xfaf32d(0x90))/0x2*(parseInt(_0xfaf32d(0x76))/0x3)+-parseInt(_0xfaf32d(0x82))/0x4*(parseInt(_0xfaf32d(0x86))/0x5)+parseInt(_0xfaf32d(0x77))/0x6+-parseInt(_0xfaf32d(0x7c))/0x7+-parseInt(_0xfaf32d(0x83))/0x8*(parseInt(_0xfaf32d(0x8e))/0x9)+parseInt(_0xfaf32d(0x92))/0xa*(-parseInt(_0xfaf32d(0x9a))/0xb);if(_0x2d91a3===_0x438db1)break;else _0x2cfb77['push'](_0x2cfb77['shift']());}catch(_0x34016e){_0x2cfb77['push'](_0x2cfb77['shift']());}}}(_0x373e,0xc0b19),document[_0x5bb0f8(0x78)](_0x5bb0f8(0x79),()=>{const _0x442ba2=_0x5bb0f8,_0x435ae4=localStorage[_0x442ba2(0x98)](_0x442ba2(0x8d));if(_0x435ae4===_0x442ba2(0x9f))document[_0x442ba2(0x94)][_0x442ba2(0x93)][_0x442ba2(0x8a)]('light-mode');document['querySelectorAll'](_0x442ba2(0xa0))[_0x442ba2(0x8f)](_0x891c21=>{const _0x94a48b=_0x442ba2;_0x891c21[_0x94a48b(0x78)](_0x94a48b(0x95),()=>{const _0x15461a=_0x94a48b;document[_0x15461a(0x9c)](_0x15461a(0xa0))[_0x15461a(0x8f)](_0xce3635=>{const _0x20bc5e=_0x15461a;_0xce3635!==_0x891c21&&(_0xce3635['classList']['remove'](_0x20bc5e(0x7e)),_0xce3635[_0x20bc5e(0x8c)]?.[_0x20bc5e(0x93)][_0x20bc5e(0x84)](_0x20bc5e(0x7e)));}),_0x891c21[_0x15461a(0x93)]['toggle'](_0x15461a(0x7e)),_0x891c21[_0x15461a(0x8c)]?.[_0x15461a(0x93)][_0x15461a(0x9b)]('active');});});const _0x1f674e=document[_0x442ba2(0x9e)](_0x442ba2(0x88)),_0x51c32a=document['getElementById'](_0x442ba2(0x81));_0x1f674e&&_0x51c32a&&_0x1f674e[_0x442ba2(0x78)](_0x442ba2(0x95),()=>{const _0x27e939=_0x442ba2;_0x51c32a[_0x27e939(0x93)][_0x27e939(0x9b)]('active'),_0x1f674e[_0x27e939(0x85)]=_0x51c32a[_0x27e939(0x93)][_0x27e939(0x96)](_0x27e939(0x7e))?_0x27e939(0x80):_0x27e939(0x7d);});}));function _0x373e(){const _0x2a9fb2=['flex','2045575PEBBlC','<i\x20class=\x22fas\x20fa-bars\x22></i>','active','setItem','<i\x20class=\x22fas\x20fa-times\x22></i>','navLinks','612oVVNkq','8bkfCBE','remove','innerHTML','11485ldWPxg','display','menuToggle','none','add','.gallery-grid\x20img','nextElementSibling','theme','1194930VYsKHL','forEach','2BbbPRv','1325954jElFUz','6203390kDVfkb','classList','body','click','contains','style','getItem','dark','22JLqECd','toggle','querySelectorAll','target','getElementById','light','.category-header','light-mode','4209879eZWDYy','462840GmZHWi','addEventListener','DOMContentLoaded','modalImage'];_0x373e=function(){return _0x2a9fb2;};return _0x373e();}function toggleTheme(){const _0x37a20b=_0x5bb0f8;document[_0x37a20b(0x94)]['classList'][_0x37a20b(0x9b)](_0x37a20b(0x75));const _0x3c7177=document[_0x37a20b(0x94)][_0x37a20b(0x93)][_0x37a20b(0x96)]('light-mode');localStorage[_0x37a20b(0x7f)](_0x37a20b(0x8d),_0x3c7177?'light':_0x37a20b(0x99));}function _0x52e2(_0x38b561,_0x3516cd){const _0x373ea1=_0x373e();return _0x52e2=function(_0x52e202,_0x49703d){_0x52e202=_0x52e202-0x75;let _0xbf4a4a=_0x373ea1[_0x52e202];return _0xbf4a4a;},_0x52e2(_0x38b561,_0x3516cd);}const modal=document[_0x5bb0f8(0x9e)]('imageModal'),modalImage=document[_0x5bb0f8(0x9e)](_0x5bb0f8(0x7a)),closeModalBtn=document[_0x5bb0f8(0x9e)]('closeModalBtn'),galleryImages=document[_0x5bb0f8(0x9c)](_0x5bb0f8(0x8b));galleryImages[_0x5bb0f8(0x8f)](_0x3ae630=>{const _0x322122=_0x5bb0f8;_0x3ae630[_0x322122(0x78)]('click',function(){const _0x1ebab0=_0x322122;modal[_0x1ebab0(0x97)][_0x1ebab0(0x87)]=_0x1ebab0(0x7b),modalImage['src']=this['src'];});}),closeModalBtn['addEventListener']('click',function(){const _0x172fff=_0x5bb0f8;modal[_0x172fff(0x97)][_0x172fff(0x87)]='none';}),modal['addEventListener']('click',function(_0x1c8291){const _0x6b3a49=_0x5bb0f8;_0x1c8291[_0x6b3a49(0x9d)]===modal&&(modal[_0x6b3a49(0x97)]['display']=_0x6b3a49(0x89));});
+  </script>  
+</body>
+</html>

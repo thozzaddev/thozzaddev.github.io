@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règlement - France New Life S-WL</title>
+    <link rel="shortcut icon" href="img/newlife.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #b00000;
+            --primary-dark: #b00000;
+            --secondary-color: #ffffff;
+            --dark-bg: #000000;
+            --light-bg: rgba(8, 8, 8, 0.9);
+            --text-light: #ffffff;
+            --text-dark: #ffffff;
+            --border-color: #ffffff;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s ease;
+            --bleu: #0055A4;
+            --blanc: #F5F5F5;
+            --rouge: #b00000;
+            --noir: #1E1E1E;
+            --gris: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1500px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: none;
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            position: relative;
+            top: 10px;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-light);
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .logo span {
+            color: var(--bleu);
+        }
+
+        .logo span2 {
+            color: var(--rouge);
+        }
+        
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 1rem;
+            gap: 1rem;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        @media (min-width: 768px) {
+        .nav-links {
+            display: flex;
+            flex-direction: row;
+            width: auto;
+            margin-top: 0;
+            gap: 2rem;
+        }
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        
+        /* Social icons */
+        .social-btn {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .social-btn:hover {
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scale(1.2);
+        }
+        
+        /* Banner */
+        .banner {
+            background: var(--dark-bg);
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .banner h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .banner span {
+            color: var(--bleu);
+        }
+
+        .banner span2 {
+            color: var(--rouge);
+        }
+        
+        .banner p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+        
+        /* Search */
+        .search-container {
+            margin: 2rem auto;
+            max-width: 600px;
+            display: flex;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            outline: none;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background-color: var(--light-bg);
+            color: var(--text-light);
+            outline: none;
+        }
+        
+        .search-btn {
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            color: black;
+            padding: 0 1.5rem;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Rules Layout */
+        .rules-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 1rem;
+            position: sticky;
+            top: 50px;
+            height: 500px;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            padding: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            border-radius: 8px;
+            margin-bottom: 0.3rem;
+            transition: var(--transition);
+        }
+
+        .category-header:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(255, 60, 60, 0.3);
+            transform: scale(1.02);
+        }
+
+        .category-header.active {
+            color: black;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .subcategories {
+            display: none;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease forwards;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .subcategories.active {
+            display: flex;
+        }
+
+        .subcategory-link {
+            padding: 0.8rem 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            border-radius: 6px;
+            margin: 0.2rem 0;
+            transition: var(--transition);
+        }
+
+        .subcategory-link:hover,
+        .subcategory-link.active {
+            background: rgba(255, 60, 60, 0.08);
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+            transform: translateX(3px);
+            box-shadow: inset 2px 0 0 var(--primary-color);
+        }
+
+        /* Animation d'apparition douce */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Rules Content */
+        .rules-content {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .rule-category-header h2 {
+            color: var(--blanc);
+            display: inline-block;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            background-image: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+            background-size: 100% 2px;
+            width: 500px;
+        }
+        
+        .rule-subcategory h3 {
+            color: var(--blanc);
+            padding-left: 1rem;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .rule-subcategory h3::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(45deg, var(--rouge), var(--blanc), var(--bleu));
+            border-radius: 10px;
+        }
+
+        
+        .rule-item {
+            background-color: var(--light-bg);
+            padding: 1.2rem 1.2rem 1.2rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 15px rgba(255, 60, 60, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .rule-item::before {
+            content: "";
+            position: absolfute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            border-radius: 10px;
+        }
+        
+        .rule-item:hover {
+            transform: translateY(-3px);
+        }
+
+        
+        /* Footer */
+        footer {
+            background: none;
+            color: var(--text-light);
+            padding: 3rem 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        
+        .footer-logo span {
+            color: var(--primary-color);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover .text {
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .rules-layout {
+                grid-template-columns: 1fr;
+            }
+        
+            .sidebar {
+                position: static;
+                margin-bottom: 2rem;
+                height: auto;
+                max-height: 300px;
+            }
+            
+            .banner h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+                width: 95%;
+            }
+            
+            .social-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            
+            .social-links.active {
+                display: flex;
+            }
+            
+            .social-links {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .banner h1 {
+                font-size: 2rem;
+            }
+            
+            .banner p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
+                margin: 1rem 0;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                max-width: 90%;
+            }
+            
+            .search-input, .search-btn {
+                width: 100%;
+                padding: 0.8rem;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .rule-category-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .rule-subcategory h3 {
+                font-size: 1.2rem;
+            }
+            
+            .footer-links {
+                gap: 1rem;
+            }
+            
+            .rules-content {
+                padding: 1rem;
+            }
+            
+            .rule-item {
+                padding: 1rem;
+            }
+        }
+        
+        .light-mode {
+            --dark-bg: #e4e4e4;
+            --light-bg: #ffffff;
+            --text-light: #000000;
+            --text-dark: #000000;
+            --border-color: #000000;
+            background-color: var(--dark-bg);
+            color: var(--text-dark);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            background: linear-gradient(45deg, var(--bleu), var(--blanc), var(--rouge));
+            color: black;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+        }
+
+        mark {
+            background: #b00000;
+            color: #000;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .rule-item {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .category-header {
+            background-color: rgba(0, 0, 0, 0.09);
+        }
+
+        .rule-item:hover {
+            background-color: rgba(0, 0, 0, 0.09);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq {
+            margin-top: 3rem;
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .faq h2 {
+            color: var(--blanc);
+            margin-bottom: 1rem;
+        }
+
+        details {
+            margin-bottom: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        details[open] summary {
+            color: var(--blanc);
+        }
+
+        details[open] summary span {
+            color: var(--bleu);
+        }
+
+        details[open] summary span2 {
+            color: var(--rouge);
+        }
+        
+        /* Ajout d'un bouton back-to-top */
+        .back-to-top {
+            position: fixed;
+            bottom: 5rem;
+            right: 1rem;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+    </style>       
+</head>
+<body>
+    <header>
+    <div class=container>
+    <nav>
+    <div class=logo><span>France</span> NewLife <span2>S-WL</span2></div>
+    <button class=menu-toggle id=menuToggle>
+    <i class="fas fa-bars"></i>
+    </button>
+    <div class=nav-links id=navLinks>
+    <a href=index.html>🏚️ Accueil</a>
+    <a href=reglement.html>📃 Règlement</a>
+    <a href=boutique.html>🛒 Boutique</a>
+    <a href=index.html#rule-teaser>📧 Contact</a>
+    </div>
+    <div class=social>
+    <a href=https://discord.gg/kp9Me4kfne class=social-btn><i class="fab fa-discord"></i></a>
+    <a href=https://youtube.com/@darkanvg1343 class=social-btn><i class="fab fa-youtube"></i></a>
+    <a href=https://www.tiktok.com/@ad.dev7 class=social-btn><i class="fab fa-tiktok"></i></a>
+    </div>
+    </nav>
+    </div>
+    </header>
+    <button class=theme-toggle onclick=toggleTheme()>🌓 Thème</button>
+    <section class=banner>
+    <div class=container>
+    <h1>Règlement du <span>France</span> NewLife <span2>S-WL</span2></h1>
+    <p>Consultez notre règlement complet pour comprendre le fonctionnement de notre serveur et assurer une expérience RP de qualité pour tous les joueurs.</p>
+    </div>
+    </section>
+    <section class="faq container">
+    <h2>❓ Questions Fréquentes</h2>
+    <details>
+    <summary><span>Que</span> signifie <span2>"FearRP" ?</span2></summary>
+    <p>Le FearRP signifie que votre personnage doit avoir peur pour sa vie et agir de manière réaliste face au danger.</p>
+    </details>
+    <details>
+    <summary><span>Est-ce que </span>je peux utiliser <span2>plusieurs comptes ?</span2></summary>
+    <p>Non. Les comptes multiples sont interdits. Vous devez jouer avec un seul compte.</p>
+    </details>
+    <details>
+    <summary><span>Puis-je ignorer</span> une décision <span2>du staff ?</span2></summary>
+    <p>Les décisions du staff doivent être respectées. Utilisez la procédure d’appel si nécessaire.</p>
+    </details>
+    </section>
+    <div class=container>
+    <div class=search-container>
+    <input class=search-input id=searchInput placeholder="Rechercher dans le règlement...">
+    <button class=search-btn id=searchBtn><i class="fas fa-search"></i></button>
+    </div>
+    <div class=rules-layout>
+    <div class=sidebar>
+    <div class=categories-menu>
+    <div class=category-item>
+    <div class="category-header active" data-category=discord>
+    <span><i class="fab fa-discord"></i> Règlement Discord</span>
+    <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="subcategories active">
+    <a href=#discord-respect class="subcategory-link active">Respect</a>
+    <a href=#discord-communication class=subcategory-link>Communication</a>
+    </div>
+    </div>
+    <div class=category-item>
+    <div class=category-header data-category=sanctions>
+    <span>⚠️ Sanctions ⚠️</span>
+    <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class=subcategories>
+    <a href=#sanctions-types class=subcategory-link>Types de sanctions</a>
+    </div>
+    </div>
+    <div class=category-item>
+    <div class=category-header data-category=roleplay>
+    <span>📃 Règlement général</span>
+    <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class=subcategories>
+    <a href=#rp-bases class=subcategory-link>Bases du RP</a>
+    <a href=#rp-personnage class=subcategory-link>Personnage</a>
+    <a href=#rp-scenarios class=subcategory-link>Scénarios</a>
+    </div>
+    </div>
+    <div class=category-item>
+    <div class=category-header data-category=jobs>
+    <span>💼 Règles des Métiers</span>
+    <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class=subcategories>
+    <a href=#jobs-legaux class=subcategory-link>Métiers légaux</a>
+    <a href=#jobs-entreprise class=subcategory-link>Reprise Entreprise</a>
+    </div>
+    </div>
+    <div class=category-item>
+    <div class=category-header data-category=illegal>
+    <span>🥷 Règlement Illégal</span>
+    <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class=subcategories>
+    <a href=#illegal-general class=subcategory-link>Illégal</a>
+    <a href=#illegal-pngn class=subcategory-link>Règlement PN/GN (illegal)</a>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class=rules-content>
+    <div class=rule-category id=discord>
+    <div class=rule-category-header>
+    <h2><i class="fab fa-discord"></i> Règlement Discord</h2>
+    </div>
+    <div class=rule-subcategory id=discord-respect>
+    <h3>Respect</h3>
+    <div class=rule-item>
+    <div class=rule-number>1.1 Nom et Prenom IG</div>
+    <div class=rule-text>Mettre son nom prénom et votre job RP. Exemple : (PN) Alexandre Pichon, ainsi que sur STEAM, pour faciliter nos recherches dans le cas où nous devrions vous contacter IG.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>1.4 Pubs et liens</div>
+    <div class=rule-text>Les pubs ou liens pour d'autre serveurs Five M, jeux, ou d'autres serveurs discords seront suivies d'un ban définitif.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>1.5 Besoin d'aide</div>
+    <div class=rule-text>Si vous avez un souci merci d'aller dans les salons dédier pour (voc bda, ticket ect.).</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>1.6 Insulte, discriminations...</div>
+    <div class=rule-text>Toute insultes, discriminations envers autrui, homophobie, racisme, sexismes, troll, harcèlements, partage de contenu inapproprié auront pour finalité un ban définitif.</div>
+    </div>
+    </div>
+    <div class=rule-subcategory id=discord-communication>
+    <h3>Communication</h3>
+    <div class=rule-item>
+    <div class=rule-number>2.1 Respect des salons</div>
+    <div class=rule-text>Merci de bien respecter les salons du discord (Les salons RP sont uniquement pour le RP, idem pour les salons HRP).</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>2.2 Respect des salons photos</div>
+    <div class=rule-text>Respecter également les salons fait pour les photos, si vous voulez poster une photo RP merci de faire en sorte que le HUD ou tout autre chose qui ne sont pas RP soit enlever.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>2.3 Exprimez-vous correctement</div>
+    <div class=rule-text>Afin d'avoir une bonne compréhension merci de vous exprimer correctement et dans le respect.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>2.3 Communication hors jeu</div>
+    <div class=rule-text>La communication hors jeu (HRP) pendant les scènes RP doit être clairement indiquée avec les balises appropriées [HRP] et limitée au strict nécessaire.</div>
+    </div>
+    </div>
+    <div class=rule-category id=roleplay>
+    <div class=rule-category-header>
+    <h2>📃 Règlement général</h2>
+    </div>
+    <div class=rule-subcategory id=rp-bases>
+    <h3>Bases du RP</h3>
+    <div class=rule-item>
+    <div class=rule-number>3.1 Nom et Prenom IG</div>
+    <div class=rule-text>Il est formellement interdit d'utiliser des prénoms/Noms ayant un jeu de mots (Jacques Sonne, Ali Mentation, Alex Térieur etc.) ou encore le prénom/nom d'un personnage connu (Walt Disney, Thomas Edison etc.)</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.2 Scènes</div>
+    <div class=rule-text>Les scènes sexuelle, raciste, xénophobe et autres sont formellement interdites et seront lourdement sanctionnées.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.3 Personnage</div>
+    <div class=rule-text>Les personnages mineurs et ou enfantins sont interdits sur le serveur.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.4 ALT F4</div>
+    <div class=rule-text>En cas de ALT F4 sur une scène dans l'unique but de ne pas la jouer sera sanctionnée d'un bannissement temporaire voire permanent.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.5 Voix (modificateur)</div>
+    <div class=rule-text>L’utilisation d’un modificateur de voix quelconque est interdite. Sauf cas unique lorsque vous êtes au téléphone et que vous appelez une personne en voulant rester incognito.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.6 Use Bug</div>
+    <div class=rule-text>Toute utilisation de bug vous vaudras un bannissement temporaire voire définitif (A voir selon la gravité). Merci de prévenir immédiatement un staff en faisant un ticket lorsque vous êtes confronter à un bug sur le serveur.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.7 Record video et screens</div>
+    <div class=rule-text>En cas de problèmes divers sur le serveur, des screens et clips vidéo vous seront demander comme preuves par la modération, sans ces preuves rien ne pourra être fait.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.8 Absence</div>
+    <div class=rule-text>Si nous constatons que vous avez une absence prolongée (1 semaine), sans aucune de vos nouvelles nous nous réservons le droit de vous wipe entièrement.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>3.9 Free Loot</div>
+    <div class=rule-text>Le free loot est totalement interdit et est sanctionnable.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>4.0 PNJ</div>
+    <div class=rule-text>Un PNJ est une personne comme vous, donc si vous vous amusez à les frapper il y aura des conséquences.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>4.1 HRP</div>
+    <div class=rule-text>Le HRP est strictement interdit et sera lourdement sanctionné. (parlez HRP pendant les scènes, faire des actions totalement HRP etc.). Vous n'êtes pas seul pensez aux autres joueurs.</div>
+    </div>
+    </div>
+    <div class=rule-subcategory id=rp-personnage>
+    <h3>Personnage</h3>
+    <div class=rule-item>
+    <div class=rule-number>5.1 Création de personnage</div>
+    <div class=rule-text>Créez un personnage réaliste avec une histoire cohérente. Évitez les personnages trop fantasques, surpuissants ou avec des histoires invraisemblables. Votre personnage doit s'intégrer dans l'univers du serveur.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>5.2 Mort RP</div>
+    <div class=rule-text>En cas de mort RP validée par un administrateur, votre personnage doit être considéré comme définitivement mort. Vous devrez créer un nouveau personnage sans aucun lien avec le précédent.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>5.3 Amnésie</div>
+    <div class=rule-text>Après une blessure grave ou un coma, votre personnage peut souffrir d'amnésie partielle concernant les événements récents. L'amnésie totale n'est autorisée que dans des circonstances exceptionnelles validées par le staff.</div>
+    </div>
+    </div>
+    <div class=rule-subcategory id=rp-scenarios>
+    <h3>Scénarios</h3>
+    <div class=rule-item>
+    <div class=rule-number>6.1 Continuité</div>
+    <div class=rule-text>Maintenez la continuité de vos scénarios RP. Les actions et leurs conséquences doivent s'inscrire dans une logique narrative cohérente au fil du temps.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>6.2 Scénarios violents</div>
+    <div class=rule-text>Les scénarios impliquant de la violence excessive, des contenus sexuels explicites ou des thèmes sensibles doivent être approuvés au préalable par le staff et faire l'objet d'un consentement de tous les participants.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>6.3 NewLife Rule</div>
+    <div class=rule-text>Après avoir été inconscient ou "respawn", votre personnage ne se souvient pas des circonstances exactes qui ont conduit à sa mort ou son inconscience. Cette règle s'applique pour éviter les vengeances immédiates.</div>
+    </div>
+    </div>
+    </div>
+    <div class=rule-category id=jobs>
+    <div class=rule-category-header>
+    <h2>💼 Règles des Métiers</h2>
+    </div>
+    <div class=rule-subcategory id=jobs-legaux>
+    <h3>Métiers légaux</h3>
+    <div class=rule-item>
+    <div class=rule-number>7.1 Forces de l'ordre</div>
+    <div class=rule-text>Les membres des forces de l'ordre doivent respecter la procédure et les lois en vigueur. L'abus de pouvoir, la corruption ou les comportements non professionnels feront l'objet de sanctions internes et administratives.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>7.2 Services médicaux</div>
+    <div class=rule-text>Les médecins et ambulanciers doivent porter assistance à toute personne en danger, quelle que soit son identité ou ses activités. La priorité doit toujours être donnée aux soins et au sauvetage.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>7.3 Avocats et juges</div>
+    <div class=rule-text>Les professionnels de la justice doivent maintenir une image d'impartialité et de professionnalisme. Les conflits d'intérêt doivent être déclarés et peuvent justifier une récusation.</div>
+    </div>
+    </div>
+    <div class=rule-subcategory id=jobs-illegaux>
+    <h3>Métiers illégaux</h3>
+    <div class=rule-item>
+    <div class=rule-number>8.1 Activités criminelles</div>
+    <div class=rule-text>Les activités criminelles doivent être réalisées avec un minimum de préparation RP. Les crimes "gratuits" ou sans motivation RP cohérente sont interdits.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>8.2 Braquages</div>
+    <div class=rule-text>Les braquages nécessitent un minimum de 3 policiers en service. Un délai de 1 heure doit être respecté entre deux braquages du même type. La prise d'otage est obligatoire pour les braquages de banque.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>8.3 Kidnapping</div>
+    <div class=rule-text>Le kidnapping doit avoir une motivation RP claire et ne pas durer plus de 30 minutes sans développement de scénario. La victime doit toujours avoir une chance de s'en sortir.</div>
+    </div>
+    </div>
+    <div class=rule-subcategory id=jobs-gangs>
+    <h3>Gangs et organisations</h3>
+    <div class=rule-item>
+    <div class=rule-number>9.1 Création</div>
+    <div class=rule-text>La création d'un gang ou d'une organisation doit être validée par le staff. Un document détaillant l'histoire, les objectifs et la structure de l'organisation doit être soumis pour approbation.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>9.2 Territoires</div>
+    <div class=rule-text>Les guerres de territoire doivent être annoncées au staff et aux gangs concernés. La prise de territoire doit se faire par des scénarios RP élaborés et non par simple élimination des adversaires.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>9.3 Alliances</div>
+    <div class=rule-text>Les alliances entre organisations doivent être construites progressivement par le biais d'interactions RP significatives. Les alliances instantanées sans développement préalable sont considérées comme du métagaming.</div>
+    </div>
+    </div>
+    </div>
+    <div class=rule-category id=sanctions>
+    <div class=rule-category-header>
+    <h2>⚠️ Sanctions ⚠️</h2>
+    </div>
+    <div class=rule-subcategory id=sanctions-types>
+    <h3>Les différentes sanctions</h3>
+    <div class=rule-item>
+    <div class=rule-number>10.1 Avertissement</div>
+    <div class=rule-text>Avertissement : L’erreur est humaine, nous pouvons tout un jour ou l’autre faire une erreur. Si cette dernière n’est pas trop grave, vous pouvez écoper d’un avertissement en jeu. Vous pouvez avoir maximum 2 avertissements. Lorsque vous avez un avertissement un rôle discord vous sera attribuée pendant une semaine.</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>10.2 Bannissement temporaire</div>
+    <div class=rule-text>Le bannissement temporaire : Vous avez commis une erreur importante ou vous cumulez plusieurs erreurs. Le bannissement peut être plus ou moins long en fonction de l’erreur, ou du nombre de récidives que vous avez commises ( 24 heures à 1 semaine ).</div>
+    </div>
+    <div class=rule-item>
+    <div class=rule-number>10.3 Bannissement permanent</div>
+    <div class=rule-text> Le bannissement permanent : Si vous avez commis trop d’infractions au règlement ou que votre comportement juger inapproprié, nous nous réservons le droit de vous bannir définitivement de notre serveur.</div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    <footer>
+    <div class=container>
+    <div class=footer-content>
+    <div class=logo>
+    <span>France</span> NewLife <span2>S-WL</span2>
+    </div>
+    <div class=footer-links>
+    <a href="#accueil"><span class="icon">🏚️ </span><span class="text">Accueil</span></a>
+    <a href="reglement.html"><span class="icon">📃 </span><span class="text">Règlement</span></a>
+    <a href="#contact"><span class="icon">📧 </span><span class="text">Contact</span></a>
+    </div>
+    <p>© 2025 Serveur RP. Tous droits reservés.</p>
+    </div>
+    </div>
+    </footer>
+
+    <script>
+        function _0xce6a(){const _0x295589=['.category-header','light-mode','scrollTo','innerHTML','remove','input','length','.rule-item','maxHeight','toLowerCase','preventDefault','querySelectorAll','replace','getItem','<i\x20class=\x22fas\x20fa-bars\x22></i>','dark','getAttribute','click','setItem','2252FbevZr','forEach','theme','contains','829yIAQtP','<mark>$1</mark>','2133640zCIYoP','smooth','pageYOffset','addEventListener','toggle','style','fa-chevron-up','441198Gxbvwi','offsetHeight','searchBtn','textContent','nextElementSibling','active','7RzoeOW','block','body','3485576ALALQD','266103TYlrKE','1555emHpGt','<i\x20class=\x22fas\x20fa-times\x22></i>','light','getBoundingClientRect','add','2177814rrrwxp','value','766UlHIjy','includes','.subcategory-link','getElementById','top','fa-chevron-down','querySelector','classList'];_0xce6a=function(){return _0x295589;};return _0xce6a();}function _0x1d8f(_0x1ec46f,_0xa9403b){const _0xce6a00=_0xce6a();return _0x1d8f=function(_0x1d8fb7,_0x39d0ba){_0x1d8fb7=_0x1d8fb7-0x1c1;let _0x4e7722=_0xce6a00[_0x1d8fb7];return _0x4e7722;},_0x1d8f(_0x1ec46f,_0xa9403b);}(function(_0x57154d,_0x2f9193){const _0x413a1a=_0x1d8f,_0x46b1a7=_0x57154d();while(!![]){try{const _0x531508=parseInt(_0x413a1a(0x1d0))/0x1*(parseInt(_0x413a1a(0x1eb))/0x2)+parseInt(_0x413a1a(0x1e3))/0x3+parseInt(_0x413a1a(0x1cc))/0x4*(parseInt(_0x413a1a(0x1e4))/0x5)+parseInt(_0x413a1a(0x1e9))/0x6*(parseInt(_0x413a1a(0x1df))/0x7)+-parseInt(_0x413a1a(0x1e2))/0x8+-parseInt(_0x413a1a(0x1d9))/0x9+-parseInt(_0x413a1a(0x1d2))/0xa;if(_0x531508===_0x2f9193)break;else _0x46b1a7['push'](_0x46b1a7['shift']());}catch(_0x4fce4a){_0x46b1a7['push'](_0x46b1a7['shift']());}}}(_0xce6a,0x3c1ab),document['addEventListener']('DOMContentLoaded',()=>{const _0x38abda=_0x1d8f,_0xdf1f8a=localStorage[_0x38abda(0x1c6)](_0x38abda(0x1ce));if(_0xdf1f8a===_0x38abda(0x1e6))document['body']['classList'][_0x38abda(0x1e8)](_0x38abda(0x1f4));document['querySelectorAll'](_0x38abda(0x1f3))['forEach'](_0x2bb4fa=>{const _0x1287bc=_0x38abda;_0x2bb4fa[_0x1287bc(0x1d5)]('click',()=>{const _0x1d4f41=_0x1287bc;document[_0x1d4f41(0x1c4)](_0x1d4f41(0x1f3))[_0x1d4f41(0x1cd)](_0x4219c4=>{const _0x431135=_0x1d4f41;_0x4219c4!==_0x2bb4fa&&(_0x4219c4['classList'][_0x431135(0x1f7)](_0x431135(0x1de)),_0x4219c4[_0x431135(0x1dd)]?.[_0x431135(0x1f2)][_0x431135(0x1f7)](_0x431135(0x1de)),_0x4219c4[_0x431135(0x1f1)]('i')[_0x431135(0x1f2)]['remove'](_0x431135(0x1d8)),_0x4219c4[_0x431135(0x1f1)]('i')['classList'][_0x431135(0x1e8)]('fa-chevron-down'));}),_0x2bb4fa[_0x1d4f41(0x1f2)][_0x1d4f41(0x1d6)](_0x1d4f41(0x1de));const _0x29f8d9=_0x2bb4fa[_0x1d4f41(0x1dd)];_0x29f8d9?.['classList']['toggle'](_0x1d4f41(0x1de));const _0x5e41fe=_0x2bb4fa['querySelector']('i');_0x5e41fe['classList'][_0x1d4f41(0x1d6)](_0x1d4f41(0x1f0)),_0x5e41fe[_0x1d4f41(0x1f2)]['toggle'](_0x1d4f41(0x1d8)),_0x29f8d9?.['classList'][_0x1d4f41(0x1cf)](_0x1d4f41(0x1de))?_0x29f8d9[_0x1d4f41(0x1d7)][_0x1d4f41(0x1c1)]=_0x29f8d9['scrollHeight']+'px':_0x29f8d9[_0x1d4f41(0x1d7)][_0x1d4f41(0x1c1)]='0';});});const _0x340da6=document['getElementById']('menuToggle'),_0x297628=document[_0x38abda(0x1ee)]('navLinks');_0x340da6&&_0x297628&&_0x340da6[_0x38abda(0x1d5)](_0x38abda(0x1ca),()=>{const _0x462bc7=_0x38abda;_0x297628[_0x462bc7(0x1f2)][_0x462bc7(0x1d6)](_0x462bc7(0x1de)),_0x340da6[_0x462bc7(0x1f6)]=_0x297628['classList']['contains'](_0x462bc7(0x1de))?_0x462bc7(0x1e5):_0x462bc7(0x1c7);});document['querySelectorAll'](_0x38abda(0x1ed))['forEach'](_0x13973c=>{const _0x717e38=_0x38abda;_0x13973c[_0x717e38(0x1d5)](_0x717e38(0x1ca),_0x2230bf=>{const _0x2a3684=_0x717e38;_0x2230bf[_0x2a3684(0x1c3)](),document[_0x2a3684(0x1c4)](_0x2a3684(0x1ed))['forEach'](_0x399b6a=>_0x399b6a[_0x2a3684(0x1f2)][_0x2a3684(0x1f7)]('active')),_0x13973c[_0x2a3684(0x1f2)][_0x2a3684(0x1e8)]('active');const _0x5206fc=_0x13973c[_0x2a3684(0x1c9)]('href'),_0x470691=document[_0x2a3684(0x1f1)](_0x5206fc);if(_0x470691){const _0x512dd7=_0x470691[_0x2a3684(0x1e7)]()[_0x2a3684(0x1ef)]+window[_0x2a3684(0x1d4)],_0x4307db=_0x512dd7-window['innerHeight']/0x2+_0x470691[_0x2a3684(0x1da)]/0x2;window[_0x2a3684(0x1f5)]({'top':_0x4307db,'behavior':_0x2a3684(0x1d3)});}});});const _0x5dd82b=document[_0x38abda(0x1ee)]('searchInput'),_0x4f7be5=document[_0x38abda(0x1ee)](_0x38abda(0x1db));function _0x59561f(_0x59921a){const _0x232b4e=_0x38abda;document[_0x232b4e(0x1c4)](_0x232b4e(0x1fa))[_0x232b4e(0x1cd)](_0x21f7c0=>{const _0x3582b6=_0x232b4e;_0x21f7c0[_0x3582b6(0x1f6)]=_0x21f7c0[_0x3582b6(0x1f6)][_0x3582b6(0x1c5)](/<mark>|<\/mark>/g,'');if(_0x59921a[_0x3582b6(0x1f9)]>0x1){const _0x4a852c=new RegExp('('+_0x59921a+')','gi');_0x21f7c0[_0x3582b6(0x1f6)]=_0x21f7c0[_0x3582b6(0x1f6)][_0x3582b6(0x1c5)](_0x4a852c,_0x3582b6(0x1d1));}});}function _0x1b9af4(){const _0x4013c8=_0x38abda,_0x494983=_0x5dd82b[_0x4013c8(0x1ea)][_0x4013c8(0x1c2)](),_0x471b70=document[_0x4013c8(0x1c4)](_0x4013c8(0x1fa));_0x471b70['forEach'](_0x146fc1=>{const _0xe4ff8d=_0x4013c8,_0x27725a=_0x146fc1[_0xe4ff8d(0x1dc)][_0xe4ff8d(0x1c2)]();_0x146fc1[_0xe4ff8d(0x1d7)]['display']=_0x27725a[_0xe4ff8d(0x1ec)](_0x494983)?_0xe4ff8d(0x1e0):'none';}),_0x59561f(_0x494983);}_0x4f7be5?.[_0x38abda(0x1d5)]('click',_0x1b9af4),_0x5dd82b?.[_0x38abda(0x1d5)](_0x38abda(0x1f8),_0x1b9af4);}));function toggleTheme(){const _0x34c9d6=_0x1d8f;document[_0x34c9d6(0x1e1)][_0x34c9d6(0x1f2)][_0x34c9d6(0x1d6)](_0x34c9d6(0x1f4));const _0x285a5f=document[_0x34c9d6(0x1e1)]['classList'][_0x34c9d6(0x1cf)]('light-mode');localStorage[_0x34c9d6(0x1cb)](_0x34c9d6(0x1ce),_0x285a5f?'light':_0x34c9d6(0x1c8));}
+    </script>
+</body>

@@ -1,0 +1,114 @@
+{
+  "users": [
+    {
+      "id": "user_1",
+      "username": "admin",
+      "password": "admin123",
+      "email": "admin@example.com",
+      "role": "admin",
+      "twofa_enabled": true,
+      "discord_id": "1055134168197103656",
+      "ip_whitelist": [
+        "127.0.0.1",
+        "::1",
+        "192.168.10.27",
+        "86.246.23.163",
+        "127.0.0.1:3000"
+      ],
+      "last_login": null,
+      "play_time": "00:00:00",
+      "created_at": "2025-01-01T00:00:00Z",
+      "session": {
+        "token": "930ddab942569cb0fb57ed24e25f1509939afb0f341dc9c378079ca0ede5d2e1",
+        "expires": "2025-04-19T11:49:37.575Z"
+      }
+    },
+    {
+      "id": "user_2",
+      "username": "user",
+      "password": "user123",
+      "email": "user@example.com",
+      "role": "user",
+      "twofa_enabled": true,
+      "discord_id": "123456789012345678",
+      "ip_whitelist": [
+        "127.0.0.1",
+        "::1",
+        "192.168.10.27",
+        "86.246.23.163",
+        "127.0.0.1:3000"
+      ],
+      "last_login": null,
+      "play_time": "00:00:00",
+      "created_at": "2025-01-01T00:00:00Z",
+      "session": {
+        "token": "517e9dbecaec6f0f1da6d9e44c888c47c58edc7a043540d774c42d177f062e5f",
+        "expires": "2025-10-19T00:35:15.547Z"
+      }
+    }
+  ],
+  "players": [],
+  "vehicles": [],
+  "businesses": [],
+  "properties": [],
+  "bans": [],
+  "server_stats": {
+    "total_players": 0,
+    "total_vehicles": 0,
+    "total_businesses": 0,
+    "economy": {
+      "total_money": 0,
+      "bank_money": 0,
+      "black_money": 0
+    },
+    "monthly_activity": {
+      "players": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "revenue": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expenses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "settings": {
+    "maintenance": false,
+    "ip_restriction": true,
+    "discord_webhook": "https://discord.com/api/webhooks/1362470329242353694/ktuoBuXYg-cnwGPyNStclWV5phbG4Dtct7JunJetuSz5YNTcaEVrk0nrKSxpusrfWV_I"
+  }
+}

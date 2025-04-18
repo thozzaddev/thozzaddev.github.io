@@ -1,0 +1,744 @@
+<div class="admin-panel">
+<div class="panel-header">
+  <h2 class="panel-title">Dernières connexions</h2>
+  <div class="panel-actions">
+    <button class="panel-button" id="refreshConnections">
+      <i class="fas fa-sync-alt"></i> Actualiser
+    </button>
+  </div>
+</div>
+<div class="panel-content">
+  <div class="search-filter">
+    <div class="search-box">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" id="searchUserInput" placeholder="Rechercher un utilisateur...">
+    </div>
+    <select class="filter-select" id="statusFilter">
+      <option value="all">Tous les statuts</option>
+      <option value="active">Actif</option>
+      <option value="pending">En attente</option>
+      <option value="inactive">Inactif</option>
+    </select>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Dernière connexion</th>
+          <th>IP</th>
+          <th>Temps de jeu</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="connectionsTableBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" id="connectionsPagination">
+    <div class="page-item">
+      <a href="#" class="page-link" id="prevPage">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+    </div>
+    <div class="page-item">
+      <a href="#" class="page-link active">1</a>
+    </div>
+    <div class="page-item">
+      <a href="#" class="page-link" id="nextPage">
+        <i class="fas fa-chevron-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  (() => {
+    const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (!token || !userData) {
+      window.location.href = '/login.html';
+      return;
+    }
+    
+    // Injecte les données utilisateur dans le DOM
+    try {
+      const user = JSON.parse(userData);
+      document.querySelector('.admin-user-name').textContent = user.username;
+      document.querySelector('.admin-user-role').textContent = user.role;
+    } catch (e) {
+      console.error('Erreur parsing user data', e);
+    }
+  })();
+  
+  document.getElementById('menuToggle').addEventListener('click', function() {
+    document.getElementById('adminSidebar').classList.toggle('show');
+  });
+
+  // Fermer le menu en cliquant ailleurs sur mobile
+  document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('adminSidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    
+    if (window.innerWidth <= 576) {
+      if (!sidebar.contains(event.target) && !menuToggle.contains(event.target) && sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+    }
+  });
+
+  // État actif du menu
+  const menuLinks = document.querySelectorAll('.admin-menu-link');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      menuLinks.forEach(item => item.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  //==========================================
+  // FONCTIONS DE GESTION MODALE - COMMUNES
+  //==========================================
+  
+  // Fonctions pour les modales
+  function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  // Boutons de fermeture des modales
+  document.querySelectorAll('.modal-close').forEach(button => {
+    button.addEventListener('click', function() {
+      const modal = this.closest('.admin-modal');
+      closeModal(modal.id);
+    });
+  });
+
+  // Fermer la modale en cliquant à l'extérieur
+  document.querySelectorAll('.admin-modal').forEach(modal => {
+    modal.addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeModal(this.id);
+      }
+    });
+  });
+
+  //==========================================
+  // FONCTIONS DE NOTIFICATION - COMMUNES
+  //==========================================
+  
+  // Fonction de notification
+  function showNotification(type, message, duration = 3000) {
+    const notification = document.getElementById('notification');
+    
+    // Définir le type de notification
+    notification.className = 'notification';
+    notification.classList.add(type);
+    
+    // Définir l'icône selon le type
+    const iconElement = notification.querySelector('.notification-icon i');
+    if (type === 'success') {
+      iconElement.className = 'fas fa-check-circle';
+    } else if (type === 'error') {
+      iconElement.className = 'fas fa-exclamation-circle';
+    } else if (type === 'warning') {
+      iconElement.className = 'fas fa-exclamation-triangle';
+    } else {
+      iconElement.className = 'fas fa-info-circle';
+    }
+    
+    // Définir le message
+    notification.querySelector('.notification-message').textContent = message;
+    
+    // Afficher la notification
+    notification.classList.add('show');
+    
+    // Masquer automatiquement après un délai
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, duration);
+  }
+
+  //==========================================
+  // FONCTIONS DE CHARGEMENT - COMMUNES
+  //==========================================
+  
+  // Exemple d'utilisation du chargement
+  function showLoading() {
+    document.getElementById('loading').style.display = 'flex';
+  }
+
+  function hideLoading() {
+    document.getElementById('loading').style.display = 'none';
+  }
+
+  //==========================================
+  // GESTION DES UTILISATEURS - PARTIE 2
+  //==========================================
+  
+  // Référence aux éléments du DOM pour la gestion des utilisateurs
+  const userTable = document.querySelector('.data-table tbody');
+  const searchInput = document.querySelector('.search-input');
+  const filterSelect = document.querySelector('.filter-select');
+  
+  // Gestionnaire d'événements pour la recherche (si les éléments existent)
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      filterUsers();
+    });
+  }
+  
+  // Gestionnaire d'événements pour le filtre (si l'élément existe)
+  if (filterSelect) {
+    filterSelect.addEventListener('change', function() {
+      filterUsers();
+    });
+  }
+  
+  // Fonction pour filtrer les utilisateurs
+  function filterUsers() {
+    if (!userTable || !searchInput || !filterSelect) return;
+    
+    const searchTerm = searchInput.value.toLowerCase();
+    const statusFilter = filterSelect.value;
+    
+    const rows = userTable.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+      const username = row.cells[0].textContent.toLowerCase();
+      const status = row.querySelector('.status') ? 
+        (row.querySelector('.status').classList.contains(statusFilter) || statusFilter === 'all') : 
+        true;
+      
+      if (username.includes(searchTerm) && status) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+  
+  // Fonction pour ouvrir le modal utilisateur avec les données
+  function openUserModal(userId) {
+    showLoading();
+    
+    // Récupérer les données de l'utilisateur via l'API
+    fetch(`/api/user/${userId}`)
+      .then(response => response.json())
+      .then(user => {
+        // Remplir le formulaire avec les données de l'utilisateur
+        document.getElementById('userName').value = user.username;
+        document.getElementById('userEmail').value = user.email;
+        document.getElementById('userPhone').value = user.phone;
+        document.getElementById('userRole').value = user.role;
+        
+        // Vérifier si l'élément existe avant d'assigner une valeur
+        const userNotes = document.getElementById('userNotes');
+        if (userNotes) {
+          userNotes.value = user.notes || '';
+        }
+        
+        // Stocker l'ID de l'utilisateur dans un attribut data pour la soumission du formulaire
+        const userForm = document.getElementById('userForm');
+        if (userForm) {
+          userForm.dataset.userId = user.id;
+        }
+        
+        // Ouvrir le modal
+        openModal('userModal');
+        hideLoading();
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des données utilisateur:', error);
+        hideLoading();
+        showNotification('error', 'Erreur lors de la récupération des données utilisateur');
+      });
+  }
+  
+  // Gestionnaire d'événements pour les boutons de modification
+  document.querySelectorAll('.table-button.edit').forEach(button => {
+    button.addEventListener('click', function() {
+      // Vérifier si nous avons un ID utilisateur dans l'attribut data
+      if (this.dataset.userId) {
+        const userId = this.dataset.userId;
+        openUserModal(userId);
+      } else {
+        // Version simple pour la rétrocompatibilité avec l'ancien code
+        openModal('userModal');
+      }
+    });
+  });
+  
+  // Gestionnaire d'événements pour la soumission du formulaire utilisateur (si l'élément existe)
+  const userForm = document.getElementById('userForm');
+  if (userForm) {
+    userForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const userId = this.dataset.userId;
+      const formData = {
+        email: document.getElementById('userEmail').value,
+        phone: document.getElementById('userPhone').value,
+        role: document.getElementById('userRole').value
+      };
+      
+      // Vérifier si l'élément de notes existe
+      const userNotes = document.getElementById('userNotes');
+      if (userNotes) {
+        formData.notes = userNotes.value;
+      }
+      
+      showLoading();
+      
+      // Mise à jour de l'utilisateur via l'API
+      fetch(`/api/user/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            hideLoading();
+            closeModal('userModal');
+            showNotification('success', 'Utilisateur mis à jour avec succès');
+            
+            // Recharger la page pour afficher les données mises à jour
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          } else {
+            hideLoading();
+            showNotification('error', data.error || 'Erreur lors de la mise à jour');
+          }
+        })
+        .catch(error => {
+          console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
+          hideLoading();
+          showNotification('error', 'Erreur lors de la mise à jour de l\'utilisateur');
+        });
+    });
+  } else {
+    // Support pour l'ancienne version du bouton de soumission
+    const adminFormSubmit = document.querySelector('.admin-form-submit');
+    if (adminFormSubmit) {
+      adminFormSubmit.addEventListener('click', function() {
+        showLoading();
+        
+        // Simuler un appel API
+        setTimeout(() => {
+          hideLoading();
+          closeModal('userModal');
+          showNotification('success', 'Les informations ont été mises à jour avec succès.');
+        }, 1000);
+      });
+    }
+  }
+  
+  // Gestionnaire d'événements pour les boutons de suppression
+  document.querySelectorAll('.table-button.delete').forEach(button => {
+    button.addEventListener('click', function() {
+      // Vérifier si nous avons un ID utilisateur dans l'attribut data
+      if (this.dataset.userId) {
+        const userId = this.dataset.userId;
+        const username = this.closest('tr').cells[0].textContent;
+        
+        if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${username} ?`)) {
+          showLoading();
+          
+          // Suppression de l'utilisateur via l'API
+          fetch(`/api/user/${userId}`, {
+            method: 'DELETE'
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                hideLoading();
+                showNotification('success', 'Utilisateur supprimé avec succès');
+                
+                // Supprimer la ligne du tableau
+                this.closest('tr').remove();
+              } else {
+                hideLoading();
+                showNotification('error', data.error || 'Erreur lors de la suppression');
+              }
+            })
+            .catch(error => {
+              console.error('Erreur lors de la suppression de l\'utilisateur:', error);
+              hideLoading();
+              showNotification('error', 'Erreur lors de la suppression de l\'utilisateur');
+            });
+        }
+      } else {
+        // Version simple pour la rétrocompatibilité avec l'ancien code
+        if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
+          showLoading();
+          
+          // Simuler un appel API
+          setTimeout(() => {
+            hideLoading();
+            showNotification('success', 'L\'utilisateur a été supprimé avec succès.');
+            
+            // Supprimer la ligne du tableau
+            this.closest('tr').remove();
+          }, 1000);
+        }
+      }
+    });
+  });
+
+  //==========================================
+  // GESTION DES CONNEXIONS
+  //==========================================
+  
+  // Charger les données de connexion si la page correspondante existe
+  if (document.getElementById('connectionsTableBody')) {
+    (async function() {
+      await loadConnectionsData();
+      
+      // Gestion du bouton d'actualisation
+      document.getElementById('refreshConnections').addEventListener('click', loadConnectionsData);
+      
+      // Gestion de la recherche
+      document.getElementById('searchUserInput').addEventListener('input', filterConnections);
+      
+      // Gestion du filtre de statut
+      document.getElementById('statusFilter').addEventListener('change', filterConnections);
+    })();
+  }
+
+  async function loadConnectionsData() {
+    showLoading();
+    try {
+      const response = await fetch('/api/connections');
+      const data = await response.json();
+      
+      if (data.success) {
+        updateConnectionsTable(data.connections);
+        updatePagination(data.totalPages);
+      } else {
+        throw new Error(data.error || 'Erreur lors du chargement');
+      }
+    } catch (error) {
+      showNotification('error', error.message);
+    } finally {
+      hideLoading();
+    }
+  }
+
+  function updateConnectionsTable(connections) {
+    const tbody = document.getElementById('connectionsTableBody');
+    tbody.innerHTML = '';
+    
+    connections.forEach(user => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${user.username}</td>
+        <td>${formatDate(user.last_login)}</td>
+        <td>${user.ip_whitelist?.[0] || 'N/A'}</td>
+        <td>${formatPlayTime(user.play_time)}</td>
+        <td><span class="status ${getStatusClass(user)}">${getStatusText(user)}</span></td>
+        <td class="table-actions">
+          <button class="table-button edit" data-id="${user.id}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="table-button delete" data-id="${user.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      `;
+      
+      // Ajouter les gestionnaires d'événements
+      row.querySelector('.edit').addEventListener('click', () => openUserModal(user.id));
+      row.querySelector('.delete').addEventListener('click', function() {
+        if (confirm(`Êtes-vous sûr de vouloir supprimer l'utilisateur ${user.username} ?`)) {
+          showLoading();
+          fetch(`/api/user/${user.id}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                row.remove();
+                showNotification('success', 'Utilisateur supprimé avec succès');
+              } else {
+                showNotification('error', data.error || 'Erreur lors de la suppression');
+              }
+            })
+            .catch(error => {
+              showNotification('error', 'Erreur lors de la suppression');
+            })
+            .finally(() => hideLoading());
+        }
+      });
+      
+      tbody.appendChild(row);
+    });
+  }
+
+  // Fonctions utilitaires
+  function formatDate(dateString) {
+    if (!dateString) return 'Jamais';
+    const date = new Date(dateString);
+    return date.toLocaleString('fr-FR');
+  }
+
+  function formatPlayTime(minutes) {
+    if (!minutes) return '0h';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  }
+
+  function getStatusClass(user) {
+    if (!user.last_login) return 'inactive';
+    const lastLogin = new Date(user.last_login);
+    const diffDays = (new Date() - lastLogin) / (1000 * 60 * 60 * 24);
+    
+    if (diffDays < 1) return 'active';
+    if (diffDays < 7) return 'pending';
+    return 'inactive';
+  }
+
+  function getStatusText(user) {
+    const status = getStatusClass(user);
+    return {
+      active: 'Actif',
+      pending: 'Inactif récent', 
+      inactive: 'Inactif'
+    }[status];
+  }
+
+  function filterConnections() {
+    const searchTerm = document.getElementById('searchUserInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    
+    const rows = document.querySelectorAll('#connectionsTableBody tr');
+    
+    rows.forEach(row => {
+      const username = row.cells[0].textContent.toLowerCase();
+      const status = row.querySelector('.status').classList.contains(statusFilter) || statusFilter === 'all';
+      
+      if (username.includes(searchTerm) && status) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  // Fonctions de pagination
+  function updatePagination(totalPages) {
+    const pagination = document.getElementById('connectionsPagination');
+    // Garder les boutons précédent/suivant
+    const prevNext = pagination.innerHTML.match(/chevron-left.*chevron-right/s)[0];
+    
+    let pagesHtml = '';
+    for (let i = 1; i <= totalPages; i++) {
+      pagesHtml += `
+        <div class="page-item">
+          <a href="#" class="page-link ${i === 1 ? 'active' : ''}" data-page="${i}">${i}</a>
+        </div>
+      `;
+    }
+    
+    pagination.innerHTML = prevNext.replace('<!-- Pages générées dynamiquement -->', pagesHtml);
+    
+    // Ajouter les gestionnaires d'événements
+    document.querySelectorAll('.page-link[data-page]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        loadPage(parseInt(this.dataset.page));
+      });
+    });
+  }
+
+  async function loadPage(page) {
+    showLoading();
+    try {
+      const response = await fetch(`/api/connections?page=${page}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        updateConnectionsTable(data.connections);
+        updateActivePage(page);
+      }
+    } catch (error) {
+      showNotification('error', 'Erreur de pagination');
+    } finally {
+      hideLoading();
+    }
+  }
+
+  function updateActivePage(activePage) {
+    document.querySelectorAll('.page-link').forEach(link => {
+      link.classList.toggle('active', parseInt(link.dataset.page) === activePage);
+    });
+  }
+
+  //==========================================
+  // INITIALISATION DES GRAPHIQUES
+  //==========================================
+  
+  // Fonction pour initialiser les graphiques avec des données réelles
+  function initChartsWithRealData() {
+    // Charger les données pour les graphiques depuis l'API
+    fetch('/api/dashboard-stats')
+      .then(response => response.json())
+      .then(data => {
+        initCharts(
+          data.monthlyPlayers,
+          data.monthlyRevenues,
+          data.monthlyExpenses
+        );
+      })
+      .catch(error => {
+        console.error('Erreur lors du chargement des statistiques:', error);
+        // En cas d'erreur, initialiser avec des données fictives
+        initChartsWithDummyData();
+      });
+  }
+  
+  // Fonction pour initialiser les graphiques avec des données fictives
+  function initChartsWithDummyData() {
+    const dummyPlayerData = [120, 190, 230, 260, 310, 350, 410, 520, 630, 750, 920, 1254];
+    const dummyRevenueData = [3.1, 4.2, 6.5, 8.3, 7.8, 9.2, 10.1, 11.5, 12.3, 13.8, 14.5, 15.2];
+    const dummyExpenseData = [2.8, 3.7, 5.2, 6.1, 6.3, 7.5, 8.2, 9.1, 9.8, 10.5, 11.2, 12.1];
+    
+    initCharts(dummyPlayerData, dummyRevenueData, dummyExpenseData);
+  }
+
+  // Fonction pour initialiser les graphiques
+  function initCharts(playerData, revenueData, expenseData) {
+    // Vérifier si les éléments canvas existent
+    const playersCanvas = document.getElementById('playersChart');
+    const economyCanvas = document.getElementById('economyChart');
+    
+    // Si le canvas des joueurs existe, créer le graphique
+    if (playersCanvas) {
+      const playersCtx = playersCanvas.getContext('2d');
+      const playersChart = new Chart(playersCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+          datasets: [{
+            label: 'Joueurs Actifs',
+            data: playerData,
+            borderColor: '#0055A4',
+            backgroundColor: 'rgba(0,85,164,0.1)',
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#ffffff'
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              },
+              ticks: {
+                color: '#ffffff'
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              },
+              ticks: {
+                color: '#ffffff'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Si le canvas de l'économie existe, créer le graphique
+    if (economyCanvas) {
+      const economyCtx = economyCanvas.getContext('3d');
+      
+      // Convertir les données en millions si elles ne le sont pas déjà
+      const formattedRevenueData = Array.isArray(revenueData) && revenueData[0] > 100 ? 
+        revenueData.map(val => val / 1000000) : revenueData;
+      
+      const formattedExpenseData = Array.isArray(expenseData) && expenseData[0] > 100 ? 
+        expenseData.map(val => val / 1000000) : expenseData;
+      
+      const economyChart = new Chart(economyCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+          datasets: [{
+            label: 'Revenus (M€)',
+            data: formattedRevenueData,
+            backgroundColor: '#0055A4'
+          }, {
+            label: 'Dépenses (M€)',
+            data: formattedExpenseData,
+            backgroundColor: '#b00000'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#ffffff'
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              },
+              ticks: {
+                color: '#ffffff'
+              }
+            },
+            y: {
+              grid: {
+                color: 'rgba(255,255,255,0.1)'
+              },
+              ticks: {
+                color: '#ffffff'
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // Essayer d'initialiser les graphiques avec des données réelles,
+  // sinon utiliser des données fictives comme fallback
+  try {
+    initChartsWithRealData();
+  } catch (error) {
+    console.error('Erreur lors de l\'initialisation des graphiques, utilisation de données fictives:', error);
+    initChartsWithDummyData();
+  }
+});
+</script>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Admin - France New Life S-WL</title>
+  <link rel="shortcut icon" href="img/newlife.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #b00000;
+      --primary-dark: #800000;
+      --secondary-color: #ffffff;
+      --dark-bg: #0e0e0e;
+      --light-bg: rgba(30, 30, 30, 0.9);
+      --text-light: #ffffff;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      --transition: all 0.3s ease;
+      --bleu: #0055A4;
+      --rouge: #b00000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                  url('img/background.jpg') center/cover fixed no-repeat;
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--light-bg);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 450px;
+      padding: 40px;
+      box-shadow: var(--box-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo .blue { color: var(--bleu); }
+    .logo .red { color: var(--rouge); }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: var(--border-radius);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(10, 10, 10, 0.6);
+      color: var(--text-light);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--bleu);
+      box-shadow: 0 0 0 3px rgba(0, 85, 164, 0.3);
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--bleu), var(--rouge));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .alert {
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid;
+    }
+
+    .alert-danger {
+      background: rgba(220, 53, 69, 0.15);
+      border-color: #dc3545;
+      color: #ff6b6b;
+    }
+
+    .alert-info {
+      background: rgba(0, 85, 164, 0.15);
+      border-color: var(--bleu);
+      color: var(--bleu);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .twofa-code {
+      letter-spacing: 10px;
+      font-size: 1.4rem;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 30px 20px;
+      }
+      
+      .logo h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="logo">
+      <h1>Panel Admin - <span class="blue">France</span> <span class="red">New Life</span> S-WL</h1>
+    </div>
+    
+    <div id="ipError" class="alert alert-danger hidden">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Votre adresse IP n'est pas autorisée à accéder au panel d'administration.</span>
+    </div>
+    
+    <!-- Formulaire de connexion principal -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username" class="form-label">
+          <i class="fas fa-user"></i> Nom d'utilisateur
+        </label>
+        <input type="text" id="username" class="form-input" required autocomplete="username">
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="form-label">
+          <i class="fas fa-lock"></i> Mot de passe
+        </label>
+        <input type="password" id="password" class="form-input" required autocomplete="current-password">
+      </div>
+      
+      <div id="loginError" class="alert alert-danger hidden">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Nom d'utilisateur ou mot de passe incorrect</span>
+      </div>
+      
+      <button type="submit" class="btn">
+        <i class="fas fa-sign-in-alt"></i> Se connecter
+      </button>
+    </form>
+    
+    <!-- Section 2FA (masquée par défaut) -->
+    <div id="twofaContainer" class="hidden">
+      <div class="alert alert-info">
+        <i class="fas fa-shield-alt"></i>
+        <span>Un code de vérification a été envoyé sur Discord.</span>
+      </div>
+      
+      <div class="form-group">
+        <label for="twofaCode" class="form-label">
+          <i class="fas fa-key"></i> Code de vérification
+        </label>
+        <input type="text" id="twofaCode" class="form-input twofa-code" maxlength="6" required autocomplete="one-time-code">
+      </div>
+      
+      <div id="twofaError" class="alert alert-danger hidden">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Code de vérification incorrect</span>
+      </div>
+      
+      <button id="verifyBtn" class="btn">
+        <i class="fas fa-check"></i> Valider le code
+      </button>
+    </div>
+  </div>
+
+  <script>
+
+    const loginForm = document.getElementById('loginForm');
+    const twofaContainer = document.getElementById('twofaContainer');
+    const ipError = document.getElementById('ipError');
+    const loginError = document.getElementById('loginError');
+    const twofaError = document.getElementById('twofaError');
+    const verifyBtn = document.getElementById('verifyBtn');
+
+    // Variables d'état
+    let currentUser = null;
+    let apiBaseUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000/api' 
+      : '/api';
+
+    // Fonctions utilitaires
+    const showAlert = (element, message) => {
+      element.querySelector('span').textContent = message;
+      element.classList.remove('hidden');
+    };
+
+    const hideAlerts = () => {
+      [loginError, twofaError, ipError].forEach(el => el.classList.add('hidden'));
+    };
+
+    const toggleForms = () => {
+      loginForm.classList.toggle('hidden');
+      twofaContainer.classList.toggle('hidden');
+    };
+
+    // Vérification IP au chargement
+    const checkIPAuthorization = async () => {
+      try {
+        const response = await fetch(`${apiBaseUrl}/auth/check-ip`, {
+          credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok || !data.authorized) {
+          throw new Error('IP non autorisée');
+        }
+        
+        return true;
+      } catch (error) {
+        console.error("Erreur vérification IP:", error);
+        return false;
+      }
+    };
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlerts();
+      
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        showAlert(loginError, 'Veuillez remplir tous les champs');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiBaseUrl}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Échec de la connexion');
+        }
+
+        const data = await response.json();
+
+        if (data.requires2FA) {
+          currentUser = { username, id: data.userId };
+          toggleForms();
+        } else {
+          localStorage.setItem('authToken', data.token);
+          window.location.href = '/dashboard';
+        }
+      } catch (error) {
+        showAlert(loginError, error.message);
+      }
+    });
+
+    function showLoading() {
+      let loader = document.getElementById('fullscreen-loader');
+      if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'fullscreen-loader';
+        loader.style.position = 'fixed';
+        loader.style.top = '0';
+        loader.style.left = '0';
+        loader.style.width = '100%';
+        loader.style.height = '100%';
+        loader.style.backgroundColor = 'rgba(0,0,0,0.7)';
+        loader.style.display = 'flex';
+        loader.style.justifyContent = 'center';
+        loader.style.alignItems = 'center';
+        loader.style.zIndex = '9999';
+        
+        const spinner = document.createElement('div');
+        spinner.style.border = '5px solid #f3f3f3';
+        spinner.style.borderTop = '5px solid #3498db';
+        spinner.style.borderRadius = '50%';
+        spinner.style.width = '50px';
+        spinner.style.height = '50px';
+        spinner.style.animation = 'spin 1s linear infinite';
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+        
+        // Ajoute l'animation CSS si inexistante
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      loader.style.display = 'flex';
+    }
+
+    function hideLoading() {
+      const loader = document.getElementById('fullscreen-loader');
+      if (loader) {
+        loader.style.display = 'none';
+      }
+    }
+
+    verifyBtn.addEventListener('click', async () => {
+      const code = document.getElementById('twofaCode').value.replace(/\D/g, '');
+      hideAlerts();
+      
+      if (code.length !== 6) {
+        showAlert(twofaError, 'Le code doit contenir 6 chiffres');
+        return;
+      }
+
+      try {
+        showLoading();
+        
+        const response = await fetch(`${apiBaseUrl}/auth/verify-2fa`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: currentUser.id, 
+            code
+          })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Échec de la vérification');
+        }
+
+        // Stockage des données de session
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userData', JSON.stringify(data.user));
+        
+        // Redirection vers le dashboard
+        window.location.href = '/dashboard.html';
+
+      } catch (error) {
+        showAlert(twofaError, error.message);
+        console.error('2FA Error:', error);
+      } finally {
+        hideLoading();
+      }
+    });
+
+    // Formatage du code 2FA
+    document.getElementById('twofaCode').addEventListener('input', function(e) {
+      this.value = this.value.replace(/\D/g, '').substring(0, 6);
+    });
+
+    (async () => {
+      const isAuthorized = await checkIPAuthorization();
+      if (!isAuthorized) {
+        ipError.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      }
+    })();
+  </script>
+</body>
+</html>
